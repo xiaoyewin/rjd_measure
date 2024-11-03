@@ -1,0 +1,19 @@
+<RCC>
+    <qresource prefix="/">
+        <file>images/close_data.png</file>
+        <file>images/continue_test.png</file>
+        <file>images/delete_testarea.png</file>
+        <file>images/delete_testline.png</file>
+        <file>images/empty_list.png</file>
+        <file>images/export_data.png</file>
+        <file>images/new_test.png</file>
+        <file>images/new_testarea.png</file>
+        <file>images/new_testline.png</file>
+        <file>images/open_data.png</file>
+        <file>images/saveas.png</file>
+        <file>images/start.png</file>
+        <file>images/stop.png</file>
+        <file>images/setting.png</file>
+        <file>images/logo.png</file>
+    </qresource>
+</RCC>
