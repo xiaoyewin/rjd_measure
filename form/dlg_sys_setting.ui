@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Dlg_Sys_Setting</class>
+ <widget class="QDialog" name="Dlg_Sys_Setting">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QGroupBox" name="groupBox">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>20</y>
+     <width>541</width>
+     <height>131</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>温度补偿</string>
+   </property>
+   <widget class="QLineEdit" name="le_n40">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>30</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_n40">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-40℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_n20">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>60</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>-20℃</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_n20">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>60</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p0">
+    <property name="geometry">
+     <rect>
+      <x>80</x>
+      <y>90</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p0">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>90</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p20">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>30</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>20℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p40">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>60</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>40℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p60">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>90</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>60℃</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p20">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>30</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p40">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>60</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p60">
+    <property name="geometry">
+     <rect>
+      <x>240</x>
+      <y>90</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p80">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>30</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>80℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p100">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>60</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>100℃</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_p120">
+    <property name="geometry">
+     <rect>
+      <x>350</x>
+      <y>90</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>120℃</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p80">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>30</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p100">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>60</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_p120">
+    <property name="geometry">
+     <rect>
+      <x>410</x>
+      <y>90</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QGroupBox" name="groupBox_2">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>160</y>
+     <width>531</width>
+     <height>141</height>
+    </rect>
+   </property>
+   <property name="title">
+    <string>湿度补偿</string>
+   </property>
+   <widget class="QLabel" name="label_rate0">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>30</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>0%</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rate20">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>60</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>20%</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rate40">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>100</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>40%</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rate60">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>20</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>60%</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rate80">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>60</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>80%</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_rate100">
+    <property name="geometry">
+     <rect>
+      <x>250</x>
+      <y>100</y>
+      <width>68</width>
+      <height>15</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>100%</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate0">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>30</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate20">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>60</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate40">
+    <property name="geometry">
+     <rect>
+      <x>90</x>
+      <y>100</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate60">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>20</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate80">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>60</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="le_rate100">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>100</y>
+      <width>61</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+  </widget>
+  <widget class="QLabel" name="label_real_temp">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>320</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>实际温度:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_correct_temp">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>350</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>校对温度:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_real_humi">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>320</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>实际湿度:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_correct_humi">
+   <property name="geometry">
+    <rect>
+     <x>230</x>
+     <y>350</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>校对湿度:</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_real_temp_value">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>320</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.00℃</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_correct_temp_value">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>350</y>
+     <width>81</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.00℃</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_real_humi_value">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>320</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.00%</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_correct_humi_value">
+   <property name="geometry">
+    <rect>
+     <x>320</x>
+     <y>350</y>
+     <width>71</width>
+     <height>16</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>0.00%</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>

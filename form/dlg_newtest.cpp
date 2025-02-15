@@ -11,7 +11,6 @@ Dlg_NewTest::Dlg_NewTest(QWidget *parent) :
     ui->setupUi(this);
     setAutoFillBackground(true);
 
-
    // this->setStyle("plastique");
     //QApplication::setStyle("plastique");
     this->setWindowTitle(tr("新建试验"));
@@ -116,6 +115,12 @@ void Dlg_NewTest::accept() //重载他的OK接收事件
         gt_item_data.ch_data[i].erase(gt_item_data.ch_data[i].begin(),gt_item_data.ch_data[i].end());
         QVector<int>  temp=gt_item_data.ch_data[i];
         gt_item_data.ch_data[i].swap(temp);
+    }
+
+    for(int i=0;i<6;i++){
+        gt_item_data.ch_point[i].erase(gt_item_data.ch_point[i].begin(),gt_item_data.ch_point[i].end());
+        QVector<QPointF>  temp=gt_item_data.ch_point[i];
+        gt_item_data.ch_point[i].swap(temp);
     }
 
     gt_item_data.temperature.erase(gt_item_data.temperature.begin(),gt_item_data.temperature.end());

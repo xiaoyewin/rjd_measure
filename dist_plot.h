@@ -39,22 +39,17 @@ public:
     Dist_Plot( QWidget *parent = NULL);
     ~Dist_Plot();
 
-
-
     void update_data();
     void update_data_open_data();
     void update_data_default_data();
     void set_per_curve_color(short num);
     //设置每个线的颜色
 
-
     void paint_curve(QVector<double> &data);
     void clear_curve();
 
 
     int default_item_index;  //这个对应最新的索引
-
-
 
     QVector<double> clac_height(QVector<double> &src);
 
@@ -64,10 +59,7 @@ public:
 
 
 
-
-
     int cur_stat;
-
     int cur_max_time;
     double cur_min_height;
     double cur_max_height;
@@ -90,6 +82,8 @@ private:
 
 
     QwtPlotCanvas *canvas;
+
+    QVector<QPointF> m_point[6];
 
     //初始化颜色
     void calc_origin_data(QVector<double> &data,double &min_value,double &max_value);

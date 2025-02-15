@@ -34,9 +34,14 @@
     <rect>
      <x>20</x>
      <y>20</y>
-     <width>150</width>
+     <width>161</width>
      <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试验名称:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -45,7 +50,7 @@
   <widget class="QLineEdit" name="lineEdit_item_name">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>20</y>
      <width>241</width>
      <height>41</height>
@@ -68,9 +73,14 @@
     <rect>
      <x>20</x>
      <y>80</y>
-     <width>150</width>
+     <width>161</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试验标准:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -79,7 +89,7 @@
   <widget class="QComboBox" name="cb_standard">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>70</y>
      <width>241</width>
      <height>31</height>
@@ -89,11 +99,16 @@
   <widget class="QLabel" name="label_tester">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>19</x>
      <y>120</y>
-     <width>150</width>
+     <width>171</width>
      <height>30</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试验员:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -102,7 +117,7 @@
   <widget class="QLineEdit" name="lineEdit_tester">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>110</y>
      <width>241</width>
      <height>41</height>
@@ -125,9 +140,14 @@
     <rect>
      <x>10</x>
      <y>150</y>
-     <width>150</width>
+     <width>181</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;测试时间(时):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -136,7 +156,7 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_time_sq">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>160</y>
      <width>241</width>
      <height>41</height>
@@ -157,11 +177,16 @@
   <widget class="QLabel" name="label_backup">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>23</x>
      <y>480</y>
-     <width>104</width>
+     <width>141</width>
      <height>71</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试验备注:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -180,11 +205,16 @@
   <widget class="QLabel" name="label_test_type">
    <property name="geometry">
     <rect>
-     <x>20</x>
+     <x>10</x>
      <y>320</y>
-     <width>131</width>
+     <width>151</width>
      <height>27</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试验方式:&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -193,7 +223,7 @@
   <widget class="QComboBox" name="cb_test_type">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>190</x>
      <y>310</y>
      <width>241</width>
      <height>41</height>
@@ -211,7 +241,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -229,7 +259,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -247,7 +277,7 @@
    </property>
    <property name="font">
     <font>
-     <pointsize>12</pointsize>
+     <pointsize>9</pointsize>
     </font>
    </property>
    <property name="text">
@@ -257,7 +287,7 @@
   <widget class="QComboBox" name="cb_arr1_1">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>370</y>
      <width>101</width>
      <height>31</height>
@@ -267,7 +297,7 @@
   <widget class="QComboBox" name="cb_arr1_2">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>290</x>
      <y>370</y>
      <width>101</width>
      <height>31</height>
@@ -277,7 +307,7 @@
   <widget class="QComboBox" name="cb_arr2_1">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>410</y>
      <width>101</width>
      <height>31</height>
@@ -287,7 +317,7 @@
   <widget class="QComboBox" name="cb_arr2_2">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>290</x>
      <y>410</y>
      <width>101</width>
      <height>31</height>
@@ -297,7 +327,7 @@
   <widget class="QComboBox" name="cb_arr3_1">
    <property name="geometry">
     <rect>
-     <x>150</x>
+     <x>160</x>
      <y>450</y>
      <width>101</width>
      <height>31</height>
@@ -307,7 +337,7 @@
   <widget class="QComboBox" name="cb_arr3_2">
    <property name="geometry">
     <rect>
-     <x>270</x>
+     <x>290</x>
      <y>450</y>
      <width>101</width>
      <height>31</height>
@@ -319,9 +349,14 @@
     <rect>
      <x>10</x>
      <y>200</y>
-     <width>150</width>
+     <width>181</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;采样间隔(分):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -330,7 +365,7 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_sample_interval">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>210</y>
      <width>241</width>
      <height>41</height>
@@ -356,9 +391,14 @@
     <rect>
      <x>10</x>
      <y>250</y>
-     <width>150</width>
+     <width>181</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>9</pointsize>
+    </font>
    </property>
    <property name="text">
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:14pt;&quot;&gt;试件长度(mm):&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
@@ -367,7 +407,7 @@
   <widget class="QDoubleSpinBox" name="doubleSpinBox_test_len">
    <property name="geometry">
     <rect>
-     <x>170</x>
+     <x>190</x>
      <y>260</y>
      <width>241</width>
      <height>41</height>

@@ -15,7 +15,7 @@
 #include "dist_plot.h"
 #include "rjddata.h"
 #include "mytitlebar.h"
-
+#include "dlg_sys_setting.h"
 
 #include "drv/modbus_rtu.h"
 
@@ -82,6 +82,7 @@ private:
     //各个窗口的打开状态
      typedef struct Per_Frm_State {
         bool is_open_new_test_dlg;  //包含测试，测区，测线
+        bool is_open_sys_setting;
         bool is_open_serial_connect;
    }T_Per_Frm_State;
 
@@ -128,6 +129,8 @@ private:
 
     Dlg_NewTest *dlg_newTest;//新建测试的类
 
+    Dlg_Sys_Setting *frm_sys_setting;
+
 
     int screenWidth_cst;
     int screenHeight_cst;
@@ -147,15 +150,21 @@ private:
     void loadStyleSheet(const QString &sheetName);
 
     bool is_monitor_sample;
+    bool is_temperature_humi_sample;  //是否时温湿度采样
 
     bool is_zero_sample;
 
     bool is_auto_sample;
 
+    QString title_content;
+    //QIcon *monitor_sample_start_icon,monitor_sample_end_icon;
+
 
 private slots:
     void on_click_new_test();
+    void on_click_sys_settting();
     void close_new_test();
+    void close_sys_settting();
     void on_click_continue_test();
     void on_click_serial_connect();
     void close_serial_connect();
@@ -180,6 +189,8 @@ private slots:
     void serial_timerout_slot();
 
     void get_data_from_serial_slot(uint8_t *data,int len);
+
+    void sample_temp_humi_correct_slot();
 
 private slots:
     // 按钮触发的槽;

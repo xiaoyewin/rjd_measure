@@ -29,7 +29,7 @@ LIBS+= -lqwt
 
 
 #用于屏蔽debug输出��DEFINES += QT_NO_WARNING_OUTPUT
-#DEFINES += QT_NO_DEBUG_OUTPUT
+DEFINES += QT_NO_DEBUG_OUTPUT
 
 TRANSLATIONS += en_tr.ts zh_tr.ts
 
@@ -38,6 +38,7 @@ SOURCES += main.cpp\
     drv/fifo_buf.cpp \
     drv/modbus_rtu.cpp \
     drv/serial_dev.cpp \
+    form/dlg_sys_setting.cpp \
         mainwindow.cpp \
     form/dlg_newtest.cpp \
     configure.cpp \
@@ -54,6 +55,7 @@ HEADERS  += mainwindow.h \
     drv/serial_dev.h \
     form/dlg_newtest.h \
     configure.h \
+    form/dlg_sys_setting.h \
     tcpclientthread.h \
     net_common.h \
     soundmedia.h \
@@ -63,7 +65,8 @@ HEADERS  += mainwindow.h \
     mytitlebar.h
 
 FORMS    += mainwindow.ui \
-    form/dlg_newtest.ui
+    form/dlg_newtest.ui \
+    form/dlg_sys_setting.ui
 
 RESOURCES += \
     resource.qrc   \

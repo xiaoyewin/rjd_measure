@@ -35,12 +35,12 @@ Dist_Plot::Dist_Plot(QWidget *parent)
 
     cur_min_height=0;
     cur_max_height=0;
-    height_tol=0.5;
+    height_tol=0.5;  //这个精度向上移动0.5mm
 //    /* Y 轴 */
-    setAxisTitle(yLeft, tr("距离(mm)"));
+    setAxisTitle(yLeft, tr("位移(mm)"));
     //setAxisTitle(yLeft, tr("height(mm)"));
 
-    setAxisScale(yLeft,cur_min_height-height_tol,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol*2)/10);
+    setAxisScale(yLeft,cur_min_height,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol)/10);
     canvas = new QwtPlotCanvas();
     canvas->setLineWidth(1);
     canvas->setFrameStyle(QFrame::Box | QFrame::Plain);
@@ -132,7 +132,6 @@ void Dist_Plot::calc_origin_data(QVector<double> &data,double &min_value, double
 
     int size=data.size();
     for(int i=0;i<size;i++){
-
         if(data[i]==(double)ZERO_DEFAULT_VALUE){
             continue;
         }
@@ -145,17 +144,10 @@ void Dist_Plot::calc_origin_data(QVector<double> &data,double &min_value, double
     }
 
     //需要向上和向下取整
-
-
-     max_value= (double)((int)(max_value+1)/1);
-
-     min_value= (double)((int)(min_value-1)/1);
-
-
+    min_value= (double)((int)(min_value)/1);
     if((max_value-min_value)<1){
         max_value=min_value+1;
     }
-
 }
 
 
@@ -183,7 +175,7 @@ void Dist_Plot::clear_curve(){
     setAxisTitle(yLeft, tr("距离(mm)"));
     //setAxisTitle(yLeft, tr("height(mm)"));
 
-    setAxisScale(yLeft,cur_min_height-height_tol,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol*2)/10);
+    setAxisScale(yLeft,cur_min_height,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol)/10);
     QPolygonF m_point;
     m_point<< QPointF(0,0);
 
@@ -241,21 +233,24 @@ void Dist_Plot::update_data(){
     if(gt_item_data.test_type==1){
         for(int i=0;i<3;i++){
             temp_value=gt_item_data.ch_data[i].at(size-1);
-            temp_data_vector.push_back((double)temp_value/1000);
+            if(temp_value!=ZERO_DEFAULT_VALUE){
+                temp_data_vector.push_back((double)temp_value/1000);
+            }
         }
         //找出对应的格式方式
         calc_origin_data(temp_data_vector,cur_min_height,cur_max_height);
-
     }
     else{
         for(int i=0;i<6;i++){
             temp_value=gt_item_data.ch_data[i].at(size-1);
-            temp_data_vector.push_back((double)temp_value/1000);
+            if(temp_value!=ZERO_DEFAULT_VALUE){
+               temp_data_vector.push_back((double)temp_value/1000);
+            }
         }
         calc_origin_data(temp_data_vector,cur_min_height,cur_max_height);
     }
 
-     setAxisScale(yLeft,cur_min_height-height_tol,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol*2)/10);
+    setAxisScale(yLeft,cur_min_height,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol)/10);
 
      cur_tick=size;
      temp_value=cur_tick/60;
@@ -263,24 +258,24 @@ void Dist_Plot::update_data(){
      setAxisScale(xBottom,0,cur_max_time,cur_max_time/10);
 
 
-    QPolygonF m_point[6];
+
+
     double temp_dist;
     double temp_double;
 
-
-    for(int i=0;i<size;i++){
-        for(int j=0;j<6;j++){
-            temp_dist=i;
-            if(gt_item_data.ch_data[j].at(i)!=ZERO_DEFAULT_VALUE){
-                temp_double=gt_item_data.ch_data[j].at(i)/1000;
-                m_point[j]<< QPointF(temp_dist,temp_double);
-            }
+    for(int j=0;j<6;j++){
+        temp_dist=size-1;
+        if(gt_item_data.ch_data[j].at(size-1)!=ZERO_DEFAULT_VALUE){
+            temp_double=(double)gt_item_data.ch_data[j].at(size-1)/1000;
+            gt_item_data.ch_point[j].push_back(QPointF(temp_dist,temp_double));
         }
     }
 
+
     for(int i=0;i<6;i++){
-         m_curve[i]->setSamples(m_point[i]);
+         m_curve[i]->setSamples(gt_item_data.ch_point[i]);
     }
+
 
 
 
@@ -340,7 +335,7 @@ void Dist_Plot::update_data_default_data(){
         calc_origin_data(temp_data_vector,cur_min_height,cur_max_height);
     }
 
-     setAxisScale(yLeft,cur_min_height-height_tol,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol*2)/10);
+     setAxisScale(yLeft,cur_min_height,cur_max_height+height_tol,(cur_max_height-cur_min_height+height_tol)/10);
 
      cur_tick=size;
      temp_value=cur_tick/60;
@@ -409,7 +404,10 @@ void Dist_Plot::update_data_open_data(){
         for(int j=0;j<size;j++){
             for(int i=0;i<3;i++){
                 temp_value=open_item_data.ch_data[i].at(j);
-                temp_data_vector.push_back((double)temp_value/1000);
+                if(temp_value!=ZERO_DEFAULT_VALUE){
+                    temp_data_vector.push_back((double)temp_value/1000);
+                }
+
             }
         }
 
@@ -420,14 +418,17 @@ void Dist_Plot::update_data_open_data(){
     else{
         for(int j=0;j<size;j++){
             for(int i=0;i<6;i++){
+
                 temp_value=open_item_data.ch_data[i].at(j);
-                temp_data_vector.push_back((double)temp_value/1000);
+                if(temp_value!=ZERO_DEFAULT_VALUE){
+                    temp_data_vector.push_back((double)temp_value/1000);
+                }
             }
         }
         calc_origin_data(temp_data_vector,cur_opened_min_height,cur_opened_max_height);
     }
 
-     setAxisScale(yLeft,cur_opened_min_height-height_tol,cur_opened_max_height+height_tol,(cur_opened_max_height-cur_opened_min_height+height_tol*2)/10);
+     setAxisScale(yLeft,cur_opened_min_height,cur_opened_max_height+height_tol,(cur_opened_max_height-cur_opened_min_height+height_tol)/10);
 
      cur_tick=size;
      temp_value=cur_tick/60;
@@ -443,9 +444,11 @@ void Dist_Plot::update_data_open_data(){
     for(int i=0;i<size;i++){
         for(int j=0;j<3;j++){
             temp_dist=i;
-            temp_double=open_item_data.ch_data[j].at(i);
-            temp_double=temp_double/1000;
-            m_point[j]<< QPointF(temp_dist,temp_double);
+            if(open_item_data.ch_data[j].at(i)!=ZERO_DEFAULT_VALUE){
+                temp_double=open_item_data.ch_data[j].at(i);
+                temp_double=temp_double/1000;
+                m_point[j]<< QPointF(temp_dist,temp_double);
+            }
         }
     }
 
@@ -459,10 +462,13 @@ void Dist_Plot::update_data_open_data(){
     if(open_item_data.test_type==0){
         for(int i=0;i<size;i++){
             for(int j=3;j<6;j++){
-                temp_dist=i;
-                temp_double=open_item_data.ch_data[j].at(i);
-                temp_double=temp_double/1000;
-                m_point[j]<< QPointF(temp_dist,temp_double);
+                if(open_item_data.ch_data[j].at(i)!=ZERO_DEFAULT_VALUE){
+                    temp_dist=i;
+                    temp_double=open_item_data.ch_data[j].at(i);
+                    temp_double=temp_double/1000;
+                    m_point[j]<< QPointF(temp_dist,temp_double);
+                }
+
             }
         }
 

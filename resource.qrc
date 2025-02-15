@@ -15,5 +15,7 @@
         <file>images/stop.png</file>
         <file>images/setting.png</file>
         <file>images/logo.png</file>
+        <file>images/monitor_sample_end.png</file>
+        <file>images/monitor_sample_start.png</file>
     </qresource>
 </RCC>

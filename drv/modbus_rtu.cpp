@@ -123,7 +123,6 @@ void Modbus_rtu::scan_target(){
 }
 bool Modbus_rtu::read_reg(uint16_t reg_addr, uint16_t data_len){
     is_busy=true;
-
     qDebug("t=%x,ref=%d,%d",target_addr,reg_addr,data_len);
     bool temp_bool=read_data(target_addr,reg_addr,data_len);
     is_busy=false;

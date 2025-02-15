@@ -123,7 +123,7 @@ private:
 
     Serial_Dev * serial;
 
-    uint8_t  recv_data_buf[30];
+    uint8_t  recv_data_buf[32];
 
     int before_send_len;
 

@@ -109,6 +109,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
     is_monitor_sample=false;
+    is_temperature_humi_sample=false;
     is_auto_sample=false;
     is_zero_sample=false;
 
@@ -199,9 +200,9 @@ MainWindow::MainWindow(QWidget *parent) :
 void MainWindow::resizeEvent(QResizeEvent *){
 
     screenWidth_cst =this->width()/10*10 ;  //获取当前窗口的高度和宽度
-    screenHeight_cst = this->height()/10*10-50;
+    screenHeight_cst = this->height()/10*10-10;
 
-    g_toolbar_height=this->height()/10;
+    g_toolbar_height=this->height()/8;
     int tabWidget_height=g_toolbar_height;
     int other_info_width=0;
 
@@ -213,8 +214,6 @@ void MainWindow::resizeEvent(QResizeEvent *){
 
     g_titlebar_height=qSqrt(screenHeight_cst);
     int groupBox_item_height=half_height-tabWidget_height-g_titlebar_height-30;
-
-
 
     tool_tabWidget->setGeometry(0,g_titlebar_height,screenWidth_cst,tabWidget_height);
 
@@ -353,7 +352,7 @@ void MainWindow::resizeEvent(QResizeEvent *){
 
 
     //my_titlebar->setTitleContent(QStringLiteral("Floor flatness measuring instrument"),temp_font_size);
-    my_titlebar->setTitleContent(QStringLiteral("智能收缩膨胀试验监测系统"),temp_font_size*2/3);
+    my_titlebar->setTitleContent(title_content,temp_font_size*2/3);
 
     my_titlebar->setTitleWidth(this->width());
     my_titlebar->setTitleHeight(g_titlebar_height);
@@ -471,7 +470,6 @@ double MainWindow::calc_shrink(T_Item_Data *item_data){
     }
 }
 void MainWindow::sample_data_add_table(int16_t *data){
-
    for(int i=0;i<6;i++){
       gt_item_data.ch_data[i].push_back(data[i]);
    }
@@ -674,20 +672,19 @@ void MainWindow::initTitleBar(){
     connect(my_titlebar, SIGNAL(signalButtonCloseClicked()), this, SLOT(onButtonCloseClicked()));
 
 
+    title_content=tr("智能收缩膨胀试验监测系统(V1.2)");
     // 设置标题栏跑马灯效果，可以不设置;
     my_titlebar->setTitleRoll();
     my_titlebar->setBackgroundColor(0x33, 0xCC, 0xff , false);
 
 
     my_titlebar->setTitleIcon(":images/logo.png",QSize(g_titlebar_height,g_titlebar_height));
-    my_titlebar->setTitleContent(QStringLiteral("智能收缩膨胀试验监测系统"),16);
-    //my_titlebar->setTitleContent(QStringLiteral("Floor flatness measuring instrument"),16);
-    //my_titlebar->setTitleContent(QStringLiteral("地坪平整度测量仪"),16);
+    my_titlebar->setTitleContent(title_content,16);
+
 
     my_titlebar->setButtonType(MIN_MAX_BUTTON);
     my_titlebar->setTitleWidth(this->width());
     my_titlebar->show();
-
 }
 
 
@@ -696,6 +693,7 @@ void MainWindow::initTitleBar(){
 void MainWindow::init()
 {
     tPer_Frm_State.is_open_new_test_dlg=false;
+    tPer_Frm_State.is_open_sys_setting=false;
 
 
 
@@ -784,7 +782,7 @@ void MainWindow::createMeauBar()
                                   background:rgb(33, cc, ff,1);\
                                   color:rgb(33, cc, ff,1);\
                                   min-width:30ex;\
-                                  min-height:10ex;\
+                                  min-height:9ex;\
                               }\
                               QTabBar::tab:hover{\
                                   background:#ccffcc;\
@@ -843,7 +841,7 @@ void MainWindow::createMeauBar()
    toolbar_control->widgetForAction(act_stop)->setObjectName(act_stop->objectName());
 
 
-   act_manual_sample = createAction(tr("监控采集"),"act_manual_sample",":/images/stop.png");
+   act_manual_sample = createAction(tr("监控采集"),"act_manual_sample",":/images/monitor_sample_start.png");
    toolbar_control->addAction(act_manual_sample);
    toolbar_control->widgetForAction(act_manual_sample)->setObjectName(act_manual_sample->objectName());
 
@@ -941,6 +939,7 @@ void MainWindow::createMeauBar()
 
 
     QObject::connect(act_new_test,SIGNAL(triggered()),this,SLOT(on_click_new_test()));
+    QObject::connect(act_system_setting,SIGNAL(triggered()),this,SLOT(on_click_sys_settting()));
     QObject::connect(act_continue_test,SIGNAL(triggered()),this,SLOT(on_click_continue_test()));//数据帅选的信号槽
 
     QObject::connect(act_start,SIGNAL(triggered()),this,SLOT(on_click_start()));//数据帅选的信号槽
@@ -964,8 +963,7 @@ void MainWindow::createMeauBar()
 
 
 }
-void MainWindow::deleteMeauBar()
-{
+void MainWindow::deleteMeauBar(){
 
     delete act_new_test;   //新建测试
     delete act_continue_test;   //继续测试
@@ -1027,6 +1025,36 @@ void MainWindow::on_click_new_test(){
         QObject::connect(dlg_newTest,SIGNAL(closeSignal()),this,SLOT(close_new_test()));
 
         dlg_newTest->show();
+    }
+}
+
+void MainWindow::on_click_sys_settting(){
+
+    if(!tPer_Frm_State.is_open_sys_setting){
+        tPer_Frm_State.is_open_sys_setting=true;
+
+        frm_sys_setting=new Dlg_Sys_Setting(this);
+
+        //这个是操作的关闭信号
+        QObject::connect(frm_sys_setting,SIGNAL(closeSignal()),this,SLOT(close_sys_settting()));
+        QObject::connect(frm_sys_setting,SIGNAL(temp_humi_signal()),this,SLOT(sample_temp_humi_correct_slot()));
+
+        frm_sys_setting->show();
+
+        is_temperature_humi_sample=false;
+
+        //需要在这里打开端口一下
+        int err_num;
+        if(err_num=modebus_rtu->dev_open(ui->cb_port->currentText())){
+
+            if(err_num==1){
+                QMessageBox::information(NULL, "错误", "未识别串口的地址！");
+            }
+            else if(err_num==2){
+                QMessageBox::information(NULL, "错误", "串口打开失败，请更换端口！");
+            }
+            return ;
+        }
     }
 }
 
@@ -1092,10 +1120,13 @@ void MainWindow::close_new_test(){
 
     delete dlg_newTest;
     dlg_newTest=NULL;
+}
 
-
-
-
+void MainWindow::close_sys_settting(){
+    tPer_Frm_State.is_open_sys_setting=false;
+    delete frm_sys_setting;
+    frm_sys_setting=NULL;
+    configure->write_conf();
 }
 
 void MainWindow::on_click_continue_test()
@@ -1200,18 +1231,21 @@ void MainWindow::on_click_start(){
     }
     is_start=true;
 
-    if(is_monitor_start){
-        is_monitor_start=false;
-        monitor_timer->stop();
-    }
-
     act_start->setDisabled(true);
     act_stop->setDisabled(false);
     act_clear_all->setDisabled(true);
+    act_new_test->setDisabled(true);
 
     tool_tabWidget->setTabEnabled(1,false);
     tool_tabWidget->setTabEnabled(2,false);
-    timer->start(gt_item_data.sample_interval*60000);//先没5S种去一次数据
+    timer->start(gt_item_data.sample_interval*60000);//先没5S种去一次数据  60000
+
+
+    if(!is_monitor_start){
+       modebus_rtu->read_reg((reinterpret_cast< int >(&((T_MODBUS_REG *)0)->temperature_reg))>>1,8);
+    }
+    is_auto_sample=true;
+    //一开始应该有一帧
 }
 
 
@@ -1219,7 +1253,7 @@ void MainWindow::on_click_stop(){
 
     if(is_start){
         QMessageBox::StandardButton box;
-        box = QMessageBox::question(this, "提示", "确实要停止监控采样吗?", QMessageBox::Yes|QMessageBox::No);
+        box = QMessageBox::question(this, "提示", "确实要停止采样吗?", QMessageBox::Yes|QMessageBox::No);
         if(box==QMessageBox::No)
            return;
 
@@ -1230,17 +1264,15 @@ void MainWindow::on_click_stop(){
         modebus_rtu->serial_close();
         act_start->setDisabled(false);
         act_clear_all->setDisabled(false);
-
+        act_new_test->setDisabled(false);
     }
     tool_tabWidget->setTabEnabled(1,true);
     tool_tabWidget->setTabEnabled(2,true);
-
 }
 
 
 
 void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
-
 
     float temp_float;
     int16_t probe_data[16];
@@ -1251,8 +1283,7 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
 
     int16_t temp_probe_data[6];
 
-
-    if(len!=16){
+    if(len>16){
         //接收到的收据发生失败
         return ;
     }
@@ -1261,7 +1292,7 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
     }
 
     if(is_zero_sample){
-
+        is_zero_sample=false;
         probe_data[0]=(int)recv_data[4]*256+recv_data[5];
         probe_data[1]=(int)recv_data[6]*256+recv_data[7];
         probe_data[2]=(int)recv_data[8]*256+recv_data[9];
@@ -1325,12 +1356,31 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
         ui->le_ch4_auto->setText(QString::number(temp_float,'f',3));
         ui->le_ch5_auto->setText(QString::number(temp_float,'f',3));
         ui->le_ch6_auto->setText(QString::number(temp_float,'f',3));
-        //采集到了数据，需要将数据，放到固定容器中
+        return;
     }
-    else if(is_monitor_sample){// 如果是监控采集，只更新自动窗口
+
+    if(is_temperature_humi_sample){
+        is_temperature_humi_sample=false;
+        temperature=(int)recv_data[0]*256+recv_data[1];
+        humi=(int)recv_data[2]*256+recv_data[3];
+
+        if(tPer_Frm_State.is_open_sys_setting){
+            frm_sys_setting->show_temp_humi(temperature,humi);
+        }
+        return;
+     }
+
+
+
+
+    if(is_monitor_sample){// 如果是监控采集，只更新自动窗口
 
         temperature=(int)recv_data[0]*256+recv_data[1];
         humi=(int)recv_data[2]*256+recv_data[3];
+
+        temperature=Configure::calc_temperature(temperature);
+        humi=Configure::calc_humi(humi);
+
 
         probe_data[0]=(int)recv_data[4]*256+recv_data[5];
         probe_data[1]=(int)recv_data[6]*256+recv_data[7];
@@ -1420,31 +1470,28 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
         }
         ui->le_temperature->setText(QString::number(((float)temperature/100),'f',1).append("℃"));
         ui->le_humi->setText(QString::number(((float)humi/100),'f',1).append("%"));
-
     }
-    else if(is_auto_sample){
-
+    if(is_auto_sample){
 
         for(int i=0;i<6;i++){
             temp_probe_data[i]=ZERO_DEFAULT_VALUE;
             probe_data[i]=0;
         }
-
-
-
         gt_item_data.sample_time+=gt_item_data.sample_interval;
 
         if(gt_item_data.sample_time>=gt_item_data.total_time){
+            gt_item_data.sample_time=gt_item_data.total_time;
+            timer->stop();
             is_start=false;
             act_start->setDisabled(false);
             act_stop->setDisabled(true);
+            act_new_test->setDisabled(false);
 
             act_clear_all->setDisabled(false);
             tool_tabWidget->setTabEnabled(1,true);
             tool_tabWidget->setTabEnabled(2,true);
-            //serial->serial_close();
-            timer->stop();
 
+            //serial->serial_close();
             QMessageBox::information(this, tr("提示"), tr("试验已结束！"));
         }
 
@@ -1455,6 +1502,9 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
             temperature=(int)recv_data[0]*256+recv_data[1];
             humi=(int)recv_data[2]*256+recv_data[3];
 
+            temperature=Configure::calc_temperature(temperature);
+            humi=Configure::calc_humi(humi);
+
             probe_data[0]=(int)recv_data[4]*256+recv_data[5];
             probe_data[1]=(int)recv_data[6]*256+recv_data[7];
             probe_data[2]=(int)recv_data[8]*256+recv_data[9];
@@ -1462,20 +1512,15 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
             probe_data[4]=(int)recv_data[12]*256+recv_data[13];
             probe_data[5]=(int)recv_data[14]*256+recv_data[15];
 
-
             for(int i=0;i<6;i++){
                 qDebug("%d------%d",i,probe_data[i]);
             }
 
             if(gt_item_data.test_type==1){
-
                 if((probe_data[gt_item_data.probe_set[0]]!=ZERO_DEFAULT_VALUE)&&(probe_data[gt_item_data.probe_set[1]])!=ZERO_DEFAULT_VALUE){
                     //说明有效
                      temp_probe_data[0]=probe_data[gt_item_data.probe_set[0]]+probe_data[gt_item_data.probe_set[1]];
-
-                     if(probe_data_zero[0]!=ZERO_DEFAULT_VALUE){
-                        temp_probe_data[0]=temp_probe_data[0]-probe_data_zero[0];
-                     }
+                     temp_probe_data[0]=temp_probe_data[0]-probe_data_zero[0];
                 }
                 else{
                     temp_probe_data[0]=ZERO_DEFAULT_VALUE;
@@ -1485,10 +1530,8 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
                 if((probe_data[gt_item_data.probe_set[2]]!=ZERO_DEFAULT_VALUE)&&(probe_data[gt_item_data.probe_set[3]])!=ZERO_DEFAULT_VALUE){
                     //说明有效
                      temp_probe_data[1]=probe_data[gt_item_data.probe_set[2]]+probe_data[gt_item_data.probe_set[3]];
+                     temp_probe_data[1]=temp_probe_data[1]-probe_data_zero[1];
 
-                     if(probe_data_zero[1]!=ZERO_DEFAULT_VALUE){
-                        temp_probe_data[1]=temp_probe_data[1]-probe_data_zero[1];
-                     }
                 }
                 else{
                     temp_probe_data[1]=ZERO_DEFAULT_VALUE;
@@ -1497,21 +1540,14 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
                 if((probe_data[gt_item_data.probe_set[4]]!=ZERO_DEFAULT_VALUE)&&(probe_data[gt_item_data.probe_set[5]])!=ZERO_DEFAULT_VALUE){
                     //说明有效
                      temp_probe_data[2]=probe_data[gt_item_data.probe_set[4]]+probe_data[gt_item_data.probe_set[5]];
-
-                     if(probe_data_zero[2]!=ZERO_DEFAULT_VALUE){
-                        temp_probe_data[2]=temp_probe_data[2]-probe_data_zero[2];
-                     }
+                     temp_probe_data[2]=temp_probe_data[2]-probe_data_zero[2];
                 }
                 else{
                     temp_probe_data[2]=ZERO_DEFAULT_VALUE;
                 }
-
-
             }
             else{
-
                 for(int i=0;i<6;i++){
-
                     if(probe_data[i]!=ZERO_DEFAULT_VALUE){
                        if(probe_data_zero[i]!=ZERO_DEFAULT_VALUE){
                            temp_probe_data[i]=probe_data[i]-probe_data_zero[i];
@@ -1520,8 +1556,6 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
                     qDebug("%d,=%d,=%d",i,probe_data_zero[i],temp_probe_data[i]);
                 }
             }
-
-
 
             for(int i=0;i<6;i++){
                 probe_data[i]=temp_probe_data[i];
@@ -1587,18 +1621,20 @@ void MainWindow::get_data_from_serial_slot(uint8_t *data,int len){
 
            gt_item_data.shrink_rate=calc_shrink(&gt_item_data);
            ui->le_shrink->setText(QString::number(gt_item_data.shrink_rate,'f',9));
-
-
     }
 
     is_monitor_sample=false;
     is_auto_sample=false;
-    is_zero_sample=false;
+}
+
+
+
+void MainWindow::sample_temp_humi_correct_slot(){
+    modebus_rtu->read_reg((reinterpret_cast< int >(&((T_MODBUS_REG *)0)->temperature_reg))>>1,8);
+    is_temperature_humi_sample=true;
 
 }
 void MainWindow::on_click_manual_sample(){
-
-
 
     if(is_monitor_start){
         QMessageBox::StandardButton box;
@@ -1614,9 +1650,10 @@ void MainWindow::on_click_manual_sample(){
             tool_tabWidget->setTabEnabled(1,true);
             tool_tabWidget->setTabEnabled(2,true);
         }
+        QIcon icon(":/images/monitor_sample_start.png");
+        act_manual_sample->setIcon(icon);
     }
     else{
-
         is_monitor_sample=false;
         monitor_timer->stop();
 
@@ -1632,8 +1669,14 @@ void MainWindow::on_click_manual_sample(){
             }
             return ;
         }
+        //我觉的可以让监控采集一直运行
         monitor_timer->start(2000);  //监控采集，2秒停止一下
         is_monitor_start=true;
+
+        QIcon icon(":/images/monitor_sample_end.png");
+        act_manual_sample->setIcon(icon);
+
+
         tool_tabWidget->setTabEnabled(1,false);
         tool_tabWidget->setTabEnabled(2,false);
     }
@@ -1992,8 +2035,10 @@ void MainWindow::monitor_timerout_slot(){
 
 void MainWindow::timerout_slot(){
 
-    modebus_rtu->read_reg((reinterpret_cast< int >(&((T_MODBUS_REG *)0)->temperature_reg))>>1,8);
-   is_auto_sample=true;
+    is_auto_sample=true;
+    if(!is_monitor_start){
+       modebus_rtu->read_reg((reinterpret_cast< int >(&((T_MODBUS_REG *)0)->temperature_reg))>>1,8);
+    }
 
 
 //        gt_item_data.sample_time+=1;
@@ -2247,6 +2292,7 @@ void MainWindow::onButtonCloseClicked(){
 
 MainWindow::~MainWindow(){
 
+    delete ui;
     delete my_titlebar;
     delete configure;
     modebus_rtu->serial_close();
@@ -2265,9 +2311,10 @@ MainWindow::~MainWindow(){
     delete timer;
     delete serial_timer;
     delete monitor_timer;
+    qDebug("delete1");
     delete rjdd;
     delete dist_plot;
-
     delete  user_Sound;
-    delete ui;
+    qDebug("delete2");
+
 }

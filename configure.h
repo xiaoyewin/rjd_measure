@@ -3,6 +3,7 @@
 
 #include <QString>
 #include<QVector>
+#include <QPointF>
 #include<QDateTime>
 #define CUR_VERSION 1 //当前版本号
 #define PI_180  3.14159265
@@ -36,14 +37,35 @@ typedef struct _item_data{
     int probe_set[6];  // 6种通道所对应的探头
 
     QVector<int>ch_data[6];
+    QVector<QPointF> ch_point[6];
+
     QVector<int> temperature;
     QVector<int> humi;
 
     // 当前的始终是最新的
     bool is_exsit;
+
     double shrink_rate; //收缩率
 }T_Item_Data;
 
+typedef struct _program_setting{
+    int compensate_temp_n40;
+    int compensate_temp_n20;
+    int compensate_temp_p0;
+    int compensate_temp_p20;
+    int compensate_temp_p40;
+    int compensate_temp_p60;
+    int compensate_temp_p80;
+    int compensate_temp_p100;
+    int compensate_temp_p120;
+
+    int compensate_humi_0;
+    int compensate_humi_20;
+    int compensate_humi_40;
+    int compensate_humi_60;
+    int compensate_humi_80;
+    int compensate_humi_100;
+}T_Program_Setting;
 
 
 
@@ -54,12 +76,18 @@ typedef struct _item_data{
 
 class Configure
 {
+
 public:
     Configure();
+    ~Configure();
+    void write_conf();
+    static  int calc_temperature(int temp);
+    static  int calc_humi(int humi);
 
 private:
     void init_item_data();
     void read_conf();
+
 };
 
 #endif // CONFIGURE_H

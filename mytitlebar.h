@@ -6,7 +6,7 @@
 #include <QLabel>
 #include <QPushButton>
 #include <QTimer>
-
+#include <QHBoxLayout>
 enum ButtonType
 {
     MIN_BUTTON = 0,         // 最小化和关闭按钮;
@@ -79,7 +79,7 @@ private:
     QPushButton* m_pButtonRestore;      // 最大化还原按钮;
     QPushButton* m_pButtonMax;          // 最大化按钮;
     QPushButton* m_pButtonClose;        // 关闭按钮;
-
+    QHBoxLayout* mylayout;
     // 标题栏背景色;
     int m_colorR;
     int m_colorG;

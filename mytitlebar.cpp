@@ -1,5 +1,5 @@
 #include "mytitlebar.h"
-#include <QHBoxLayout>
+
 #include <QPainter>
 #include <QFile>
 #include <QMouseEvent>
@@ -32,9 +32,14 @@ MyTitleBar::MyTitleBar(QWidget *parent)
     loadStyleSheet("MyTitle");
 }
 
-MyTitleBar::~MyTitleBar()
-{
-
+MyTitleBar::~MyTitleBar(){
+    delete mylayout;
+    delete m_pIcon;                    // 标题栏图标;
+    delete m_pTitleContent;            // 标题栏内容;
+    delete m_pButtonMin;          // 最小化按钮;
+    delete m_pButtonRestore;      // 最大化还原按钮;
+    delete m_pButtonMax;          // 最大化按钮;
+    delete m_pButtonClose;        // 关闭按钮;
 }
 
 // 初始化控件;
@@ -72,7 +77,7 @@ void MyTitleBar::initControl()
     m_pButtonRestore->setText("〇");
     m_pButtonClose->setFocusPolicy(Qt::NoFocus); // 必须要加，不然默认按空格键，就是按的关闭！
 
-    QHBoxLayout* mylayout = new QHBoxLayout(this);
+    mylayout = new QHBoxLayout(this);
     mylayout->addWidget(m_pIcon);
     mylayout->addWidget(m_pTitleContent);
 
